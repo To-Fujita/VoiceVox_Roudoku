@@ -41,7 +41,13 @@ The VoiceVox_Roudoku program is as follow.
 Please open the above file on the VS Code, then click the "Run" and the "Start Debugging" or the "Run Without Debugging". Wait a few second, it will be displayed "*Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)" at the Terminal. Then, after open the Browser, please input "http://127.0.0.1:5000". You can use the reading for Japanease text files with selected voice character.  
 
 (c) Sample Japanese Text Files  
-I prepared some sample text files in the "Sample_Text" folder. Some of them are downloaded form "[青空文庫](http://www.aozora.gr.jp/)", and others are downloaded from "[Sound Emotion](https://sound-emotion.jp/)".
+I prepared some sample text files in the "Sample_Text" folder. Some of them are downloaded form "[青空文庫](http://www.aozora.gr.jp/)", and others are downloaded from "[Sound Emotion](https://sound-emotion.jp/)".  
+
+(d) Usage  
+- Click the "ファイル読込", then please select the Japanese text file.
+- Click the "朗読開始" for start the reading the selected Japanese text file.
+- If you want to stop or to terminate the reading, please click the "朗読終了" or the "朗読中断".
+- If you want to change the voice character, please click the "VOICEVOX: XXX". Then, you can select the voice character.
   
 ## 5. History
 2023/01/11: Upload the first version.  
