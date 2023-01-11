@@ -16,7 +16,7 @@ This is a reading program for Japanese text files using a VOICEVOX. You can list
 I have confirmed this Python Script on the above conditions only. I will show you below how to execute this Python Script.
 
 ### 4-1. Preparations
-(a) Download and install VOICEVOX
+(a) Download and install VOICEVOX  
 Please download the [VOICEVOX](https://voicevox.hiroshiba.jp/), and install to your PC. 
   
 (b) Download & unzip the file.  
