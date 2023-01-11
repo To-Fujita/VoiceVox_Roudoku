@@ -10,7 +10,8 @@ This is a reading program for Japanese text files using a VOICEVOX. You can list
 - VOICEVOX Ver. 0.13.4
 
 ## 3. Demo
-![VoiceVox_Roudoku](https://to-fujita.github.io/Images/Voice_Converter.png "Images for Voice Converter")
+![VoiceVox_Roudoku](https://to-fujita.github.io/Images/Roudoku_001.png "Images for VoiceVox_Roudoku")
+![VoiceVox_Roudoku](https://to-fujita.github.io/Images/Roudoku_002.png "Images for VoiceVox_Roudoku")
 
 ## 4. Details
 I have confirmed this Python Script on the above conditions only. I will show you below how to execute this Python Script.
