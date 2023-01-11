@@ -38,6 +38,9 @@ The VoiceVox_Roudoku program is as follow.
 - main_VoiceVox_Roudoku.py  
 
 Please open the above file on the VS Code, then click the "Run" and the "Start Debugging" or the "Run Without Debugging". Wait a few second, it will be displayed "*Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)" at the Terminal. Then, after open the Browser, please input "http://127.0.0.1:5000". You can use the reading for Japanease text files with selected voice character.  
+
+(c) Sample Japanese Text Files  
+I prepared some sample text files in the "Sample_Text" folder. Some of them are downloaded form "[青空文庫](http://www.aozora.gr.jp/)", and others are downloaded from "[Sound Emotion](https://sound-emotion.jp/)".
   
 ## 5. History
 2023/01/11: Upload the first version.  
