@@ -2,7 +2,7 @@
 ## 1. Description
 This is a reading program for Japanese text files using a VOICEVOX. You can listen to the reading in the selected voice.
 
-## 2. Operational Environment
+## 2. Operational Conditions
 - Windows 10/11 64-bit
 - Visual Studio Code (VS Code)
 - Python 3.9.4 64-bit
