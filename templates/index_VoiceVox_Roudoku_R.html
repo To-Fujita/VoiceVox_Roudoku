@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+  <title>Index_VoiceVox_Rodoku.html by VOICEVOX by T. Fujita 2023/01/10</title>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">  
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="static/css/bot_R.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/dialog_R.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="static/js/encoding.min.js"></script>
+  </head>
+  <body>
+    <Center><h1>
+      <img src="/static/images/R_011_R.png" alt="CANDICE" style="width:50px;height:50px;vertical-align:bottom;"/>
+      日本語テキスト朗読・声劇／with VOICEVOX
+      <img src="/static/images/R_012_R.png" alt="CANDICE" style="width:50px;height:50px;vertical-align:bottom;transform: scale(-1, 1);"/><br>
+      <div id="Text_Flag">
+        <input type="button" class="normalButton" style="position:absolute; top:60px; left:10px; font-size: 20px; background-color: #0000ff; " value="ファイル読込" onclick="Dialog_open_TXT();">
+      </div>
+      <div id="Speech_Flag">
+        <input type="button" class="normalButton" style="position:absolute; top:60px; left:200px; font-size: 20px; background-color: #005005; " value="朗読開始" onclick="OnButtonClick_01();">
+      </div>
+      <div id="Restart_Flag">
+        <input type="button" class="normalButton" style="position:absolute; top:60px; left:310px; font-size: 20px; background-color: #005005; " value="朗読再開" onclick="OnButtonClick_02();">
+      </div>
+      <div id="Voice_Flag">
+        <input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff; " value="VOICEVOX:四国めたん（あまあま）" onclick="Dialog_open_VoiceOptions();">
+      </div>
+      <input type="button" class="normalButton" value="設　定" style="position:absolute; top:60px; right:5%; font-size: 20px;" onclick="Dialog_open_menu();"/>
+    </h1></Center>
+    <div class="box"></div>
+    <div class="boxed" style="position: absolute; top:120px; left:3%;">
+      <div>
+        <div id="chatbox">
+          <p class="botText">
+            <img src="./static/images/R_015_R.png" alt="BOT" style="width:50px;height:50px;vertical-align:bottom;"/>
+            <span>これは、VOICEVOXによるテキストの朗読・声劇用プログラムです。<br>
+              テキストファイルを指定されたキャラクターが朗読します。　
+              初めに「VOICEVOX-Ver.0.13.4 以降」を起動しておいてください。朗読に時間がかかるのはお許し下さいね！💖
+            </span>
+          </p>
+        </div>
+        <div id="userInput" style="font-size: 14px;">
+          <input id="textInput" type="text" name="msg" placeholder="テキスト" />
+        </div>
+      </div>
+    </div>
+
+<!-- Dialog_Menu -->
+<dialog dialog id="dialog_menu">
+    <center><font size="4" color="#000">
+        ダイアログ（メニュー）
+    </font></center>
+    <hr>
+    <nav class="nav">
+      <ul class="nav__menu"><font size="2">
+        <li class="nav__menu-item"><a>Informations</a>
+            <ul class="nav__submenu">
+                <li class="nav__submenu-item"> <a href="javascript: Dialog_open_information()">Information</a></li>
+                <li class="nav__submenu-item"> <a href="javascript: Dialog_open_manual()">Manual</a></li>
+                <li class="nav__submenu-item"> <a href="javascript: Dialog_open_profile()">Profile</a></li>
+            </ul>                
+        </li>
+        <li class="nav__menu-item"><a>Bot Options</a>
+            <ul class="nav__submenu">
+                <li class="nav__submenu-item"> <a href="javascript: Dialog_open_VoiceOptions()">Voice Options</a></li>
+            </ul>
+        </li>
+        <li class="nav__menu-item"><a>File Options</a>
+            <ul class="nav__submenu">
+                <li class="nav__submenu-item"> <a href="javascript: Dialog_open_TXT()">ファイル読込</a></li>
+                <li class="nav__submenu-item"> <a href="javascript: Dialog_open_log_Save()">ログの保存</a></li>
+                <li class="nav__submenu-item"> <a href="javascript: Dialog_open_Reset()">リセット</a></li>
+            </ul>
+        </li>
+      </font></ul>
+    </nav>
+    <input type="button" class="rightButton" value="閉じる" onclick="Dialog_close_menu()">
+</dialog>
+
+<!-- Dialog Box for Information -->
+<dialog dialog id="dialog_information">
+    <center>
+        ダイアログ（Information）
+    </center>
+    <hr>
+・これは、情報ウィンドウです。<br><br>
+・Microsoft Edge及びGoogle Chrome対応のテキスト朗読・声劇用プログラムです。<br><br>
+・「設定」から各種設定が可能です。<br><br>
+・ボットの音声変更、アイコンの変更やログデータの保存が出来ます。<br><br>
+    <hr>
+    <input type="button" class="rightButton" value="閉じる" onclick="Dialog_close_information()">
+</dialog>
+
+<!-- Dialog Box for Manual -->
+<dialog dialog id="dialog_manual">
+    <center>
+        ダイアログ（Manual）
+    </center>
+    <hr>
+    <center>
+    <textarea rows="10" cols="50" readonly style="resize: none; width:480px; height:250px; text-align: left;">
+・本プログラムを起動する前に、「VOICEVOX」を起動しておいてください。
+・テキスト・ファイルを指定したキャラクタの音声で朗読します。
+・複数の音声で声劇を行う場合、次のフォーマットでテキストを作成して下さい。
+　音声No.とセリフを『_:_』でわけてください。
+　例：　12_:_あいうえお。
+　　　　12　音声No.（半角で）
+　　　　_:_　セリフと音声No.の分割用（半角で）
+　　　　あいうえお。　セリフ（半角、全角どちらでも可ですが、英語はスペルをアルファベットとして話すことが多いです）
+・出力された音声データは、次のフォルダーにwavファイルとして保存されます。
+保存先フォルダー：「.\VoiceVox_Roudoku-main\static\audio」
+・出力された音声データは、本プログラムを起動する毎に上書きされますので注意して下さい。
+・「設定」⇒「File Options」⇒「ログの保存」で、ログデータをCSVファイルに出力できます。（Windows10/11では、「ダウンロード」フォルダーにファイルが保存されます。）
+・ログデータの番号と出力された音声データの番号は、一致するはずです。
+・「VOICEVOX」及びそれに関連するキャラクター関連のライセンス及び利用規約については、「VOICEVOX」を参照ください。
+    </textarea>
+    </center>
+    <hr>
+    <input type="button" class="rightButton" value="閉じる" onclick="Dialog_close_manual()">
+</dialog>
+
+<!-- Dialog Box for Profile -->
+<dialog dialog id="dialog_profile">
+    <center>
+        ダイアログ（Profile）
+    </center>
+    <hr>
+    <div class="profile_wrapper">
+        <div class="card">
+            <div class="me">
+                <div class="eye"></div>
+            </div>
+            <div class="text">
+                 HAL bou
+            </div>
+        </div>
+    </div>
+    <input type="button" class="rightButton" value="閉じる" onclick="Dialog_close_profile()">
+</dialog>
+
+<!-- Dialog Box for Voice Options -->
+<dialog dialog id="dialog_VoiceOptions">
+    <center>
+        ダイアログ（Voice Options）
+    </center>
+    <hr>
+    <center>
+        <select size="10" name="voice-select" id="selectVoice">
+        <option value = "0" selected>0:四国めたん（あまあま）</option>
+        <option value = "1">1:ずんだもん（あまあま）</option>
+        <option value = "2">2:四国めたん（ノーマル）</option>
+        <option value = "3">3:ずんだもん（ノーマル）</option>
+        <option value = "4">4:四国めたん（セクシー）</option>
+        <option value = "5">5:ずんだもん（セクシー）</option>
+        <option value = "6">6:四国めたん（ツンツン）</option>
+        <option value = "7">7:ずんだもん（ツンツン）</option>
+        <option value = "8">8:春日部つむぎ（ノーマル）</option>
+        <option value = "9">9:波音リツ（ノーマル）</option>
+        <option value = "10">10:雨晴はう（ノーマル）</option>
+        <option value = "11">11:玄野武宏（ノーマル）</option>
+        <option value = "12">12:白上虎太郎（ノーマル）</option>
+        <option value = "13">13:青山龍星（ノーマル）</option>
+        <option value = "14">14:冥鳴ひまり（ノーマル）</option>
+        <option value = "15">15:九州そら（あまあま）</option>
+        <option value = "16">16:九州そら（ノーマル）</option>
+        <option value = "17">17:九州そら（セクシー）</option>
+        <option value = "18">18:九州そら（ツンツン）</option>
+        <option value = "19">19:九州そら（ささやき）</option>
+        <option value = "20">20:もち子(cv 明日葉よもぎ)</option>
+        <option value = "21">21:剣崎雌雄（ノーマル）</option>
+        <option value = "22">22:ずんだもん（ささやき）</option>
+        <option value = "23">23:WhiteCUL（ノーマル）</option>
+        <option value = "24">24:WhiteCUL（たのしい）</option>
+        <option value = "25">25:WhiteCUL（かなしい）</option>
+        <option value = "26">26:WhiteCUL（びえーん）</option>
+        <option value = "27">27:後鬼（人間Ver.）</option>
+        <option value = "28">28:後鬼（ぬいぐるみver.）</option>
+        <option value = "29">29:No.7（ノーマル）</option>
+        <option value = "30">30:No.7（アナウンス）</option>
+        <option value = "31">31:No.7（読み聞かせ）</option>
+        <option value = "32">32:白上虎太郎（わーい）</option>
+        <option value = "33">33:白上虎太郎（びくびく）</option>
+        <option value = "34">34:白上虎太郎（おこ）</option>
+        <option value = "35">35:白上虎太郎（びえーん）</option>
+        <option value = "36">36:四国めたん（ささやき）</option>
+        <option value = "37">37:四国めたん（ヒソヒソ）</option>
+        <option value = "38">38:ずんだもん（ヒソヒソ）</option>
+        <option value = "39">39:玄野武宏（喜び）</option>
+        <option value = "40">40:玄野武宏（ツンギレ）</option>
+        <option value = "41">41:玄野武宏（悲しみ）</option>
+        <option value = "42">42:ちび式じい（ノーマル）</option>
+        <option value = "43">43:櫻歌ミコ（ノーマル）</option>
+        <option value = "44">44:櫻歌ミコ（第二形態）</option>
+        <option value = "45">45:櫻歌ミコ（ロリ）</option>        
+        <option value = "46">46:小夜/SAYO（ノーマル）</option>
+        <option value = "47">47:ナースロボ＿タイプＴ（ノーマル）</option>
+        <option value = "48">48:ナースロボ＿タイプＴ（楽々）</option>
+        <option value = "49">49:ナースロボ＿タイプＴ（恐怖）</option>
+        <option value = "50">50:ナースロボ＿タイプＴ（内緒話）</option>
+        </select>
+        <br/><br/>
+    </center>
+    <hr>
+    <input type="button" class="leftButton" value="キャンセル" onclick="Dialog_cancel_VoiceOptions()">
+    <input type="button" class="rightButton" value="決　定" onclick="Dialog_close_VoiceOptions()">
+</dialog>
+
+<!-- Dialog Box for Text File -->
+<dialog dialog id="dialog_Text_Load">
+    <center>
+        ダイアログ（Text File Loading）
+    </center>
+    <hr>
+    <span style="font-size: 16px;">　テキスト・ファイルの選択：　</span>
+    <center>
+        <input type="file" accept="text/plain" name="dialog_TXT" id="dialog_TXT" value=""><HR>
+        <textarea style="resize:none; width:480px; height:180px; font-size:0.6em; margin:0; padding:0; text-align: left;" id="dialog_DSP" readonly>　</textarea>
+    </center>
+    <hr>
+    <input type="button" class="leftButton" value="キャンセル" onclick="Dialog_cancel_TXT()">           
+    <input type="button" class="rightButton" value="決　定" onclick="Dialog_close_TXT()">
+</dialog>
+
+<!-- Dialog Box for Log File -->
+<dialog dialog id="dialog_log_Save">
+    <center>
+        ダイアログ（Log Save/Shift-JIS）
+    </center>
+    <hr>
+    <span style="font-size: 16px;">　ログの保存：　</span>
+    <center>
+        <div style="width:480px; height:220px; white-space: nowrap; overflow:scroll;">
+            <table border="1" id="dialog_log_Save_SJIS" style="font-size: 14px;"></table>
+        </div>
+    </center>
+    <hr>
+    <input type="button" class="leftButton" value="キャンセル" onclick="Dialog_cancel_log_Save()"> 
+    <a class="rightButton" id="log_download_SJIS" style="font-size: 18px;" href="#" download="Roudoku_Data.csv" onclick="Dialog_close_log_Save()">ファイル保存</a>
+</dialog>
+
+<!-- Dialog Box for Reset -->
+<dialog dialog id="dialog_Reset">
+    <center>
+        ダイアログ（リセット）
+    </center>
+    <hr>
+・ここで、リセットできます。<br>
+    <br><br>
+    <br><br>
+    <hr>
+    <input type="button" class="leftButton" value="オール・リセット" onclick="Dialog_all_Reset()">
+    <input type="button" class="normalButton" style="position:absolute; bottom:2px; left:50%;" value="画面消去" onclick="Dialog_text_Reset()">
+    <input type="button" class="rightButton" value="閉じる" onclick="Dialog_close_Reset()">
+</dialog>
+
+    <script>
+        let bot_icon = "/static/images/R_015_R.png";
+        let Voice = document.getElementById('Voice_Flag');
+        let Text_Data = document.getElementById('textInput');
+        let Flag_Speech = 0;
+        let log_data = new Array();
+        let Roudoku_data = new Array();
+        let temp_word = new Array();
+        let tmp_data = "ファイルが選択されていません！";
+        let sound = new Audio();
+        let ST_id;
+        let python_Flag = 0;
+        let count = 0;
+        let Max_count = 0;
+        let Voice_No = 0;
+        let Max_Voice = 50;
+        const voiceSelect = document.getElementById('selectVoice');
+
+        function OnButtonClick_01() {
+            count = 0;
+            if (Flag_Speech == 1) {
+                Flag_Speech = 0;
+                Speech_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:200px; font-size: 20px; background-color: #005005; " value="朗読開始" onclick="OnButtonClick_01();">';
+                Restart_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:310px; font-size: 20px; background-color: #005005; " value="朗読再開" onclick="OnButtonClick_02();">'; 
+            }
+            else {
+                Flag_Speech = 1;
+                Speech_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:200px; font-size: 20px; background-color: #ff0000; " value="朗読終了" onclick="OnButtonClick_01();">';
+                Restart_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:310px; font-size: 20px; background-color: #ff0000; " value="朗読中断" onclick="OnButtonClick_02();">';
+            }
+            Text_Set();
+        }
+
+        function OnButtonClick_02() {
+            if (count > Max_count) {
+                count = 0;
+            }
+            if (Flag_Speech == 1) {
+                Flag_Speech = 0;
+                Speech_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:200px; font-size: 20px; background-color: #005005; " value="朗読開始" onclick="OnButtonClick_01();">';
+                Restart_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:310px; font-size: 20px; background-color: #005005; " value="朗読再開" onclick="OnButtonClick_02();">';
+            }
+            else {
+                Flag_Speech = 1;
+                if (count > 0) {
+                count = count - 1;
+                }
+                Speech_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:200px; font-size: 20px; background-color: #ff0000; " value="朗読終了" onclick="OnButtonClick_01();">';
+                Restart_Flag.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:310px; font-size: 20px; background-color: #ff0000; " value="朗読中断" onclick="OnButtonClick_02();">';
+            }
+            Text_Set();
+        }
+// Python とのやり取り
+        function getBotResponse() {
+            if (Flag_Speech == 0) {
+                return;
+            }
+            python_Flag = 1;
+            clearTimeout(ST_id);
+            var rawText = $("#textInput").val();
+            $.get("/get", { msg: rawText }).done(function(data) {
+                var Temp = data.replace(/\n/g, '<br>');
+                Show_Voice();
+                var botHtml = '<p class="botText"><img src=' + bot_icon + ' alt="BOT" style="width:50px;height:50px;vertical-align:bottom;"/><span>' + Temp + '</span></p>';
+                $("#chatbox").append(botHtml);     
+                speech(data);
+                log_data.push([data]);
+                document.getElementById("userInput").scrollIntoView({ block: "start", behavior: "smooth" });
+                python_Flag = 0;
+            });
+        }
+
+// 音声合成での発声（VOICEVOX）
+        function speech(answer) {
+            voice_count = answer.substr(0, 4);
+            sound.preload = "none";
+            sound.src = "static/audio/audio" + voice_count + ".wav";
+            sound.load();
+            sound.loop = false;
+            sound.autoplay = true;
+            sound.play();
+            sound.addEventListener("ended", function() {
+                if (Flag_Speech == 1 && python_Flag == 0) {
+                    Text_Set();
+                }
+            }, false);
+        }
+
+// Text Set
+        function Text_Set() {
+            var Temp_00 = Roudoku_data[count].indexOf("_:_");
+            var Temp_01 = temp_voice;
+            if (Temp_00 > 0) {
+                Temp_01 = Number(Roudoku_data[count].substr(0, Temp_00));
+                Text_Data.value = Roudoku_data[count].substr(Temp_00 + 3);
+            } else {
+                Text_Data.value = Roudoku_data[count];
+            }
+            if (Temp_01 > Max_Voice) {
+                Temp_01 = 0;
+            }
+            temp_voice = Temp_01;
+            Set_Voice();
+// Wait for setting the Voice No.
+            var Temp_02 = 0;
+            for (i=0; i<100; i++) {
+                Temp_02 = Temp_02 + 1;
+            }
+            getBotResponse();
+            count = count + 1;
+            if (count >= Max_count) {
+                OnButtonClick_01();
+            }
+        }
+
+// for Dialog Box
+        function Dialog_open_menu() {
+            dialog_menu.showModal();
+        }
+        function Dialog_close_menu() {
+            dialog_menu.close();
+        }
+
+        function Dialog_open_manual() {
+            dialog_menu.close();
+            dialog_manual.showModal();
+        }
+        function Dialog_close_manual() {
+            dialog_manual.close();
+        }
+
+        function Dialog_open_information() {
+            dialog_menu.close();
+            dialog_information.showModal();
+        }
+        function Dialog_close_information() {
+            dialog_information.close();
+        }
+
+        function Dialog_open_profile() {
+            dialog_menu.close();
+            dialog_profile.showModal();
+        }
+        function Dialog_close_profile() {
+            dialog_profile.close();
+        }
+
+// for Profile Wrapper
+        var $wrap = $('.profile_wrapper'),
+            $lEye = $('.eye'),
+            lFollowX = 5,
+            lFollowY = 10,
+            x = 0,
+            y = 0,
+            friction = 1 / 12;
+
+        function animate() {
+            x += (lFollowX - x) * friction;
+            y += (lFollowY - y) * friction;
+            $lEye.css({
+                '-webit-transform': 'translate(' + -x + 'px, ' + -y + 'px)',
+                '-moz-transform': 'translate(' + -x + 'px, ' + -y + 'px)',
+                'transform': 'translate(' + -x + 'px, ' + -y + 'px)' 
+            });
+            $wrap.css({
+                'transform': 'translate(-50%, -50%) perspective(600px) rotateY(' + -x + 'deg) rotateX(' + y + 'deg)' 
+            });
+            window.requestAnimationFrame(animate);
+        }
+
+        $(window).on('mousemove click', function (e) {
+            var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
+            var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
+            lFollowX = 12 * lMouseX / 100;          // 100 : 12 = lMouxeX : lFollow
+            lFollowY = 10 * lMouseY / 100;
+        });
+        animate();
+
+// Voice Options
+        var temp_voice = 0;
+        voiceSelect.onchange = function(){
+            temp_voice = this.value;
+        }
+        function Dialog_open_VoiceOptions() {
+            dialog_menu.close();
+            dialog_VoiceOptions.showModal();
+        }
+        function Dialog_close_VoiceOptions() {
+            Set_Voice();
+            Show_Voice();
+            dialog_VoiceOptions.close();
+            if (Flag_Speech == 1) {
+                Text_Set();
+            }
+        }
+        function Dialog_cancel_VoiceOptions() {
+            dialog_VoiceOptions.close();
+            if (Flag_Speech == 1) {
+                Text_Set();
+            }
+        }
+        function Set_Voice() {
+            temp_text = String(temp_voice);
+            $.get("/get_Voice", { Voice_No: temp_text }).done(function( data ) {
+                temp_text = data
+            }).fail(function(){
+                alert('failed');
+            });
+        }
+        function Show_Voice() {
+            Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:四国めたん（あまあま）" onclick="Dialog_open_VoiceOptions();">';
+            bot_icon = "/static/images/四国めたん.png";
+            if (temp_voice == 1) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:ずんだもん（あまあま）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ずんだもん.png";
+            } else if (temp_voice == 2) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:四国めたん（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/四国めたん.png";
+            } else if (temp_voice == 3) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:ずんだもん（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ずんだもん.png";
+            } else if (temp_voice == 4) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:四国めたん（セクシー）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/四国めたん.png";
+            } else if (temp_voice == 5) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:ずんだもん（セクシー）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ずんだもん.png";
+            } else if (temp_voice == 6) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:四国めたん（ツンツン）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/四国めたん.png";
+            } else if (temp_voice == 7) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:ずんだもん（ツンツン）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ずんだもん.png";
+            } else if (temp_voice == 8) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:春日部つむぎ（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/春日部つむぎ.png";
+            } else if (temp_voice == 9) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:波音リツ（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/波音リツ.png";
+            } else if (temp_voice == 10) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:雨晴はう（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/雨晴はう.png";
+            } else if (temp_voice == 11) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:玄野武宏（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/玄野武宏.png";
+            } else if (temp_voice == 12) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:白上虎太郎（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/白上虎太郎.png";
+            } else if (temp_voice == 13) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:青山龍星（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/青山龍星.png";
+            } else if (temp_voice == 14) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:冥鳴ひまり（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/冥鳴ひまり.png";
+            } else if (temp_voice == 15) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:九州そら（あまあま）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/九州そら.png";
+            } else if (temp_voice == 16) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:九州そら（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/九州そら.png";
+            } else if (temp_voice == 17) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:九州そら（セクシー）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/九州そら.png";
+            } else if (temp_voice == 18) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:九州そら（ツンツン）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/九州そら.png";
+            } else if (temp_voice == 19) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:九州そら（ささやき）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/九州そら.png";
+            } else if (temp_voice == 20) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 18px; background-color: #0000ff;" value="VOICEVOX:もち子(cv 明日葉よもぎ)" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/もち子さん.png";
+            } else if (temp_voice == 21) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:剣崎雌雄（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/剣崎雌雄.png";
+            } else if (temp_voice == 22) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:ずんだもん（ささやき）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ずんだもん.png";
+            } else if (temp_voice == 23) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:WhiteCUL（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/WhiteCUL.png";
+            } else if (temp_voice == 24) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:WhiteCUL（たのしい）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/WhiteCUL.png";
+            } else if (temp_voice == 25) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:WhiteCUL（かなしい）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/WhiteCUL.png";
+            } else if (temp_voice == 26) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:WhiteCUL（びえーん）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/WhiteCUL.png";
+            } else if (temp_voice == 27) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:後鬼（人間Ver.）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/後鬼.png";
+            } else if (temp_voice == 28) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:後鬼（ぬいぐるみver.）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/後鬼.png";
+            } else if (temp_voice == 29) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:No.7（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/No.7.png";
+            } else if (temp_voice == 30) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:No.7（アナウンス）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/No.7.png";
+            } else if (temp_voice == 31) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:No.7（読み聞かせ）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/No.7.png";
+            } else if (temp_voice == 32) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:白上虎太郎（わーい）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/白上虎太郎.png";
+            } else if (temp_voice == 33) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:白上虎太郎（びくびく）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/白上虎太郎.png";
+            } else if (temp_voice == 34) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:白上虎太郎（おこ）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/白上虎太郎.png";
+            } else if (temp_voice == 35) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:白上虎太郎（びえーん）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/白上虎太郎.png";
+            } else if (temp_voice == 36) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:四国めたん（ささやき）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/四国めたん.png";
+            } else if (temp_voice == 37) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:四国めたん（ヒソヒソ）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/四国めたん.png";
+            } else if (temp_voice == 38) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:ずんだもん（ヒソヒソ）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ずんだもん.png";
+            } else if (temp_voice == 39) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:玄野武宏（喜び）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/玄野武宏.png";
+            } else if (temp_voice == 40) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:玄野武宏（ツンギレ）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/玄野武宏.png";
+            } else if (temp_voice == 41) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:玄野武宏（悲しみ）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/玄野武宏.png";
+            } else if (temp_voice == 42) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:ちび式じい（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ちび式じい.png";
+            } else if (temp_voice == 43) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:櫻歌ミコ（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/櫻歌ミコ.png";
+            } else if (temp_voice == 44) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:櫻歌ミコ（第二形態）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/櫻歌ミコ.png";
+            } else if (temp_voice == 45) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:櫻歌ミコ（ロリ）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/櫻歌ミコ.png";
+            } else if (temp_voice == 46) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 20px; background-color: #0000ff;" value="VOICEVOX:小夜/SAYO（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/小夜／SAYO.png";
+            } else if (temp_voice == 47) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 18px; background-color: #0000ff;" value="VOICEVOX:ナースロボ＿タイプＴ（ノーマル）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ナースロボ＿タイプＴ.png";
+            } else if (temp_voice == 48) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 18px; background-color: #0000ff;" value="VOICEVOX:ナースロボ＿タイプＴ（楽々）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ナースロボ＿タイプＴ.png";
+            } else if (temp_voice == 49) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 18px; background-color: #0000ff;" value="VOICEVOX:ナースロボ＿タイプＴ（恐怖）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ナースロボ＿タイプＴ.png";
+            } else if (temp_voice == 50) {
+                Voice.innerHTML = '<input type="button" class="normalButton" style="position:absolute; top:60px; left:450px; font-size: 18px; background-color: #0000ff;" value="VOICEVOX:ナースロボ＿タイプＴ（内緒話）" onclick="Dialog_open_VoiceOptions();">';
+                bot_icon = "/static/images/ナースロボ＿タイプＴ.png";
+
+            }
+        }
+
+// Save Log Data
+        function Dialog_open_log_Save() {
+            var dialog_log_SJIS = document.getElementById('dialog_log_Save_SJIS');
+            var insertElement = '';
+            dialog_menu.close();
+            dialog_log_Save.showModal();
+            for (var i=0; i<log_data.length; i++) {
+                insertElement += '<tr>';
+				    for (var j=0; j<log_data[i].length; j++) {
+					    insertElement += '<td>' + log_data[i][j] + '</td>';
+				    }
+				    insertElement += '</tr>';
+            }
+            dialog_log_SJIS.innerHTML = insertElement;
+        }
+        function Dialog_cancel_log_Save() {
+            dialog_log_Save.close();
+        }
+        function Dialog_close_log_Save() {
+            log_Data_Save_SJIS();
+            log_data = [];
+            dialog_log_Save.close();
+        }
+        function log_Data_Save_SJIS() {
+            var Temp_str = '';
+            for (var i=0; i<log_data.length; i++) {
+                for (var j=0; j<log_data[i].length; j++) {
+                    Temp_str = Temp_str + log_data[i][j] + ',';
+                }
+                Temp_str = Temp_str + '\n';
+            }
+            
+            var strArray = Encoding.stringToCode(Temp_str);
+            var convertedArray = Encoding.convert(strArray, 'SJIS', 'UNICODE');
+            var UintArray = new Uint8Array(convertedArray);
+            var blob = new Blob([UintArray], { type: 'text/csv' });
+            if (window.navigator.msSaveBlob) { 
+                window.navigator.msSaveBlob(blob, "Roudoku_Data.csv"); 
+                // msSaveOrOpenBlobの場合はファイルを保存せずに開ける
+                window.navigator.msSaveOrOpenBlob(blob, "Roudoku_Data.csv"); 
+            } else {
+                document.getElementById("log_download_SJIS").href = window.URL.createObjectURL(blob);
+            }
+        }
+
+// Load Text File
+        function Dialog_open_TXT() {
+            dialog_Text_Load.showModal();
+            Dialog_TXT_Data_Load();
+        }
+        function Dialog_close_TXT() {
+            Roudoku_data = temp_word;
+            Max_count = Roudoku_data.length;
+            dialog_Text_Load.close();
+        }
+         function Dialog_cancel_TXT() {
+            dialog_Text_Load.close();
+        }
+
+// Load Text Data
+        function Dialog_TXT_Data_Load() {
+	        var select = document.getElementById('dialog_TXT');
+	        var output_txt = document.getElementById('dialog_DSP');
+	        select.value = "";
+	        output_txt.value = "";
+	        output_txt.innerHTML = "";
+            if(window.File) {
+		        select.addEventListener('change', function(e) {
+                    tmp_data = "";
+                    temp_word = new Array();
+			        var fileData = e.target.files[0];
+			        var reader = new FileReader();
+			        reader.onerror = function() {
+				        alert('ファイル読み取りに失敗しました')
+			        }
+			        reader.onload = function(event) {
+				        var tmp = new Uint8Array(event.target.result);
+				        var tmp_text = Encoding.convert(tmp, 'UNICODE', 'AUTO');
+		  		        var txtArray = Encoding.codeToString(tmp_text);
+				        var lineArr = txtArray.split('\n');
+				        for (var i = 0; i < lineArr.length; i++) {
+					        tmp_data = tmp_data + lineArr[i];
+                            temp_word[i] = lineArr[i];
+		  		        }
+				        output_txt.value = tmp_data;
+			        }
+			        reader.readAsArrayBuffer(fileData);
+		        }, false);
+	        }
+        }
+
+// for Reset
+        function Dialog_open_Reset() {
+            dialog_menu.close();
+            dialog_Reset.showModal();            
+        }
+        function Dialog_all_Reset() {
+            location.reload();
+            dialog_Reset.close();            
+        }
+        function Dialog_text_Reset() {
+            count = 0;
+            log_data = [];
+            document.getElementById("userInput").value = "";
+            chatbox.innerHTML = '<p class="botText"> <img src="./static/images/R_015_R.png" alt="BOT" style="width:50px;height:50px;vertical-align:bottom;"/> <span> 画面をクリアしました！ </span> </p>';
+            dialog_Reset.close();            
+        }
+        function Dialog_close_Reset() {
+            dialog_Reset.close();            
+        }
+
+    </script>
+  </body>
+</html>
