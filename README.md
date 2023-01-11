@@ -6,7 +6,7 @@ This is a reading program for Japanese text files using a VOICEVOX. You can list
 - Windows 10/11 64-bit
 - Visual Studio Code (VS Code)
 - Python 3.9.4 64-bit
-- Browser: Microsoft Edge opr Google Chrome
+- Browser: Microsoft Edge or Google Chrome
 - VOICEVOX Ver. 0.13.4
 
 ## 3. Demo
