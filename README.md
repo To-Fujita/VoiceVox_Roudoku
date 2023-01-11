@@ -4,7 +4,7 @@ This is a reading program for Japanese text files using a VOICEVOX. You can list
 
 ## 2. Operational Conditions
 - Windows 10/11 64-bit
-- Visual Studio Code (VS Code)
+- Visual Studio Code (VS-Code)
 - Python 3.9.4 64-bit
 - Browser: Microsoft Edge or Google Chrome
 - VOICEVOX Ver. 0.13.4
@@ -23,8 +23,8 @@ Please download the [VOICEVOX](https://voicevox.hiroshiba.jp/), and install to y
 Please download following file and put the unzipped folder under the system path passed.
 - VoiceVox_Roudoku: Please download from above "Code".
   
-(c) Install some libraries to your Python  
-Please install following libraries to your Python system.
+(c) Install some libraries to your Python on VS-Code  
+Please install following libraries to your Python system on VS-Code.
 - requests: pip install requests
 - wave: pip install wave
 - Flask: pip install Flask
