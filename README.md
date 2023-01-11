@@ -49,6 +49,8 @@ I prepared some sample text files in the "Sample_Text" folder. Some of them are 
 - [VOICEVOX](https://voicevox.hiroshiba.jp/)
 - [VS Code](https://azure.microsoft.com/ja-jp/products/visual-studio-code/)
 - [Python](https://www.python.org/)
+- [青空文庫](http://www.aozora.gr.jp/)
+- [Sound Emotion](https://sound-emotion.jp/)
   
 ## 7. License
 - Programs: MIT
