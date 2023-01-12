@@ -51,6 +51,7 @@ I prepared some sample text files in the "Sample_Text" folder. Some of them are 
   
 ## 5. History
 2023/01/11: Upload the first version.  
+2023/01/12: Bug fixed for the multi-speakers settion.
   
 ## 6. Reference
 - [VOICEVOX](https://voicevox.hiroshiba.jp/)
