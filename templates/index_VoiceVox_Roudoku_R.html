@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <title>Index_VoiceVox_Rodoku.html by VOICEVOX by T. Fujita 2023/01/10</title>
+  <title>Index_VoiceVox_Rodoku.html by VOICEVOX by T. Fujita 2023/01/12 Revised</title>
 
   <head>
     <meta charset="utf-8" />
@@ -268,7 +268,6 @@
         let temp_word = new Array();
         let tmp_data = "ファイルが選択されていません！";
         let sound = new Audio();
-        let ST_id;
         let python_Flag = 0;
         let count = 0;
         let Max_count = 0;
@@ -316,7 +315,6 @@
                 return;
             }
             python_Flag = 1;
-            clearTimeout(ST_id);
             var rawText = $("#textInput").val();
             $.get("/get", { msg: rawText }).done(function(data) {
                 var Temp = data.replace(/\n/g, '<br>');
@@ -352,20 +350,16 @@
             var Temp_01 = temp_voice;
             if (Temp_00 > 0) {
                 Temp_01 = Number(Roudoku_data[count].substr(0, Temp_00));
-                Text_Data.value = Roudoku_data[count].substr(Temp_00 + 3);
-            } else {
-                Text_Data.value = Roudoku_data[count];
+            }
+            if (Temp_01 < 0) {
+                Temp_01 = 0;
             }
             if (Temp_01 > Max_Voice) {
                 Temp_01 = 0;
             }
             temp_voice = Temp_01;
-            Set_Voice();
-// Wait for setting the Voice No.
-            var Temp_02 = 0;
-            for (i=0; i<100; i++) {
-                Temp_02 = Temp_02 + 1;
-            }
+            Text_Data.value = Roudoku_data[count];
+
             getBotResponse();
             count = count + 1;
             if (count >= Max_count) {
@@ -460,7 +454,7 @@
             }
         }
         function Set_Voice() {
-            temp_text = String(temp_voice);
+            var temp_text = String(temp_voice);
             $.get("/get_Voice", { Voice_No: temp_text }).done(function( data ) {
                 temp_text = data
             }).fail(function(){
@@ -662,7 +656,7 @@
             var blob = new Blob([UintArray], { type: 'text/csv' });
             if (window.navigator.msSaveBlob) { 
                 window.navigator.msSaveBlob(blob, "Roudoku_Data.csv"); 
-                // msSaveOrOpenBlobの場合はファイルを保存せずに開ける
+// msSaveOrOpenBlobの場合はファイルを保存せずに開ける
                 window.navigator.msSaveOrOpenBlob(blob, "Roudoku_Data.csv"); 
             } else {
                 document.getElementById("log_download_SJIS").href = window.URL.createObjectURL(blob);
