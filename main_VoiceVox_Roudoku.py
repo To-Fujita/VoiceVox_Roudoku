@@ -1,4 +1,4 @@
-# Roudoku with VoiceVox, "main_VoiceVox_Roudoku.py" by F. Fujita on 2023/01/10
+# Roudoku with VoiceVox, "main_VoiceVox_Roudoku.py" by F. Fujita on 2023/01/12 Revised
 
 import random
 from flask import Flask, render_template, request
@@ -10,7 +10,8 @@ app = Flask(__name__, static_url_path='/static')
 answer_data = []
 Speaker_No = 0
 voice_count = 0
-filepath = './VoiceVox_Roudoku-main/static/audio/audio'     # Please set the PATH according to your environment.
+Max_Speaker_No = 50                     # VOICEVOX における声のキャラクター数
+filepath = './VoiceVox_Roudoku-main/static/audio/audio'
 
 @app.route("/")
 # Display by the HTML
@@ -27,8 +28,17 @@ def get_Voice_No():
 @app.route("/get")
 # Communicate with HTML
 def get_bot_response():
+    global Speaker_No
     userText = request.args.get('msg')
-    answer = make_answer(userText)
+    if ('_:_' in userText):
+        Speaker_No = int(userText[: userText.find('_:_')])
+        if (Speaker_No < 0):
+            Speaker_No = 0
+        if (Speaker_No > Max_Speaker_No):
+            Speaker_No = 0
+        answer = make_answer(userText[userText.find('_:_') + 3 :])
+    else:
+        answer = make_answer(userText)
     return answer
 
 # Create an answer
